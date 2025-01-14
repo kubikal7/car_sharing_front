@@ -23,24 +23,11 @@ function Main() {
   const handleSearch = async (e) => {
     e.preventDefault();
     setError('');
-   const startWithSeconds = searchDates.startDate.length === 16 
-     ? searchDates.startDate + ':00' 
-     : searchDates.startDate;
-   const endWithSeconds = searchDates.endDate.length === 16 
-     ? searchDates.endDate + ':00' 
-     : searchDates.endDate;
+   
     try {
-     const response = await axios.post({
-         method: 'GET',
-         url: 'http://localhost:8080/availability/available',
-         headers: {
-           'Content-Type': 'application/json'
-         },
-         data: {
-           startDate: startWithSeconds,
-           endDate: endWithSeconds
-         }
-       });
+      const response = await axios.get('http://localhost:8080/availability/available', {
+        params: searchDates,
+      });
       setAvailableCars(response.data);
     } catch (err) {
       console.error(err);
