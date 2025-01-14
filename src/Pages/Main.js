@@ -42,12 +42,6 @@ function Main() {
       alert('Musisz być zalogowany, żeby rezerwować samochody.');
       return;
     }
-    
-    console.log({
-      carId: carId,
-      startDate: searchDates.startDate,
-      endDate: searchDates.endDate
-    })
 
     try {
       const res = await axios.post(
