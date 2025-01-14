@@ -42,20 +42,20 @@ function Main() {
       alert('Musisz być zalogowany, żeby rezerwować samochody.');
       return;
     }
-    const startWithSeconds = searchDates.startDate.length === 16 
-      ? searchDates.startDate + ':00' 
-      : searchDates.startDate;
-    const endWithSeconds = searchDates.endDate.length === 16 
-      ? searchDates.endDate + ':00' 
-      : searchDates.endDate;
+    
+    console.log({
+      carId: carId,
+      startDate: searchDates.startDate,
+      endDate: searchDates.endDate
+    })
 
     try {
       const res = await axios.post(
           'http://localhost:8080/reservation/reserve',
           {
             carId: carId,
-            startDate: startWithSeconds,
-            endDate: endWithSeconds
+            startDate: searchDates.startDate,
+            endDate: searchDates.endDate
           },
           {
             headers: { Authorization: token }
