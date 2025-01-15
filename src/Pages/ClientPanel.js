@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function ClientPanel() {
-  const [seats, setSeats] = useState(null); // np. 1, 2, 3, 5
-  const [price, setPrice] = useState(500); // suwak 
+  const [seats, setSeats] = useState(null); 
+  const [price, setPrice] = useState(500); 
   const [cars, setCars] = useState([]);
 
-  // 1. Obsługa kliknięcia przycisku liczby miejsc
+  //kliknięcia przycisku liczby miejsc
   const handleSelectSeats = (val) => {
     setSeats(val);
   };
 
-  // 2. Obsługa suwaka ceny
+  //suwak ceny
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
   };
 
-  // 3. Wyszukaj auta
+  //wyszukaj auta
   const handleSearch = async () => {
     try {
 

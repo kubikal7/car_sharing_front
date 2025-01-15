@@ -10,7 +10,7 @@ function Main() {
   const [availableCars, setAvailableCars] = useState([]);
   const [error, setError] = useState('');
 
-  // Zmiana pól startDate i endDate w formularzu
+  // zmiana startDate i endDate 
   const handleSearchDatesChange = (e) => {
     const { name, value } = e.target;
     setSearchDates((prev) => ({
@@ -19,7 +19,7 @@ function Main() {
     }));
   };
 
-  // Wyszukiwanie dostępnych samochodów
+  //wyszukiwanie dostępnych samochodów
   const handleSearch = async (e) => {
     e.preventDefault();
     setError('');
@@ -35,7 +35,7 @@ function Main() {
     }
   };
 
-  // Rezerwacja wybranego samochodu
+  // rezerwacja wybranego samochodu
   const handleReserve = async (carId) => {
     const token = localStorage.getItem('token') || '';
     if (!token) {
@@ -69,7 +69,7 @@ function Main() {
       <h2>Strona główna</h2>
       <p>Wyszukaj dostępne samochody w podanym terminie:</p>
 
-      {/* Formularz do podania dat */}
+      {/* podanie dat */}
       <form onSubmit={handleSearch}>
         <div>
           <label>Data początkowa (LocalDateTime):</label>
@@ -96,7 +96,7 @@ function Main() {
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      {/* Wyświetlanie dostępnych samochodów */}
+      {/* dostępne samochody */}
       {availableCars.length > 0 && (
         <div style={{ marginTop: '2rem' }}>
           <h3>Dostępne samochody:</h3>
@@ -104,6 +104,11 @@ function Main() {
             {availableCars.map((car) => (
               <li key={car.id}>
                 ID: {car.id}, kolor: {car.color}, rok: {car.year}, cena/dzień: {car.price_per_day}
+                {car.carType && (
+                  <>
+                    , typ: {car.carType.brand} {car.carType.model} ({car.carType.nrOfSeats} miejsc)
+                  </>
+                )}
                 &nbsp;
                 <button onClick={() => handleReserve(car.id)}>Rezerwuj</button>
               </li>
