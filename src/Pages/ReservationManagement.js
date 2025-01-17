@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import LayoutAdmin from '../Components/Layout-admin';
 
 function ReservationsManagement() {
   const [reservations, setReservations] = useState([]);
@@ -36,7 +37,7 @@ function ReservationsManagement() {
   };
 
   return (
-    <div>
+    <LayoutAdmin>
       <h2>Zarządzaj rezerwacjami</h2>
       {reservations.length === 0 ? (
         <p>Brak rezerwacji.</p>
@@ -54,7 +55,7 @@ function ReservationsManagement() {
           ))}
         </ul>
       )}
-    </div>
+    </LayoutAdmin>
   );
 }
 

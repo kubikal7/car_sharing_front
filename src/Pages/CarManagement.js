@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import LayoutAdmin from '../Components/Layout-admin';
+import { checkAdminStatus } from '../Scripts/checkAdmin';
 
 function CarManagement() {
   const [cars, setCars] = useState([]);
@@ -16,6 +18,13 @@ function CarManagement() {
 
   const token = localStorage.getItem('token');
 
+  const [isAdmin, setIsAdmin] = useState(null);
+  useEffect(() => {
+    (async () => {
+      setIsAdmin(await checkAdminStatus(token) ? true : false);
+    })();
+  }, [token]);
+
   // 1. Pobranie listy samochodów
   const fetchCars = async () => {
     try {
@@ -27,8 +36,9 @@ function CarManagement() {
   };
 
   useEffect(() => {
+    if (isAdmin === null || isAdmin === false) return;
     fetchCars();
-  }, []);
+  }, [isAdmin]);
 
   // 2. Dodawanie nowego samochodu
   const handleNewCarChange = (e) => {
@@ -97,7 +107,7 @@ function CarManagement() {
   };
 
   return (
-    <div>
+    <LayoutAdmin>
       <h2>Zarządzanie samochodami</h2>
 
       {/* FORMULARZ DODAWANIA */}
@@ -176,7 +186,7 @@ function CarManagement() {
           </li>
         ))}
       </ul>
-    </div>
+    </LayoutAdmin>
   );
 }
 

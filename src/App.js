@@ -9,6 +9,9 @@ import User from './Pages/User';
 import ReservationsManagement from './Pages/ReservationManagement';
 import ClientPanel from './Pages/ClientPanel';
 import CarManagement from './Pages/CarManagement';
+import AdminPanel from './Pages/AdminPanel';
+import UserManagement from './Pages/UserManagement';
+import AddAdmin from './Pages/AddAdmin';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
         <Route path="/admin-cars" element={<CarManagement/>} />
         <Route path="/admin-reservations" element={<ReservationsManagement/>} />
         <Route path="/client-panel" element={<ClientPanel />} />
+        <Route path="/admin" element={<AdminPanel/>}/>
+        <Route path="/admin-users" element={<UserManagement/>}/>
+        <Route path="/admin-add" element={<AddAdmin/>}/>
       </Routes>
     </BrowserRouter>
   );
