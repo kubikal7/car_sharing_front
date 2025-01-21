@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '../Components/Layout';
+import { Link } from 'react-router-dom';
 
 function User() {
   const [userData, setUserData] = useState(null);
@@ -16,7 +17,7 @@ function User() {
 
 
   useEffect(() => {
-    // Pobierz token z localStorage
+    //token z localStorage
     const token = localStorage.getItem('token') || '';
 
     if (!token) {
@@ -25,15 +26,14 @@ function User() {
       return;
     }
 
-    // Wyślij zapytanie GET do serwera z tokenem w nagłówku Authorization
     const fetchUserData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/user/', {
           headers: {
-            'Authorization': token // Dodaj token do nagłówka
+            'Authorization': token //Dodaj token do nagłówka
           },
         });
-        setUserData(response.data); // Ustaw dane użytkownika
+        setUserData(response.data); //Ustaw dane użytkownika
       } catch (err) {
         setError('Błąd podczas pobierania danych użytkownika.');
         console.error(err);
@@ -41,20 +41,20 @@ function User() {
         setLoading(false);
       }
     };
-    //Pobieranie rezerwacji użytkownika
+    //rezerwacje użytkownika
     const fetchUserReservations = async () => {
       try {
         const res = await axios.get('http://localhost:8080/reservation/user/reservations', {
           headers: { Authorization: token }
         });
-        setReservations(res.data); // Zapisz rezerwacje w stanie
+        setReservations(res.data); //Zapisz rezerwacje w stanie
       } catch (err) {
         console.error('Błąd pobierania rezerwacji:', err);
       }
     };
-    fetchUserData(); // Uruchom funkcję pobierania danych
-    fetchUserReservations(); // Wywołaj drugą funkcję
-  }, []); // Efekt jest wywoływany tylko raz, przy renderowaniu komponentu
+    fetchUserData(); 
+    fetchUserReservations(); 
+  }, []);
 
      //OBSŁUGA EDYCJI REZERWACJI 
   const handleEditChange = (e) => {
@@ -144,44 +144,10 @@ function User() {
           <ul>
             {reservations.map((res) => (
               <li key={res.id}>
-                {/* Wyświetlamy co chcemy: */}
-                <div>
-                  <strong>ID rezerwacji:</strong> {res.id}, 
-                  <strong> Samochód:</strong> {res.car?.id}, 
-                  <strong> Od:</strong> {res.startDate}, 
-                  <strong> Do:</strong> {res.endDate}, 
-                  <strong> Cena:</strong> {res.price} zł
-                </div>
-
-                {editReservationId === res.id ? (
-                  // Formularz edycji
-                  <div style={{ marginTop: '0.5rem' }}>
-                    <input
-                      type="datetime-local"
-                      name="newStart"
-                      value={editDates.newStart}
-                      onChange={handleEditChange}
-                    />
-                    <input
-                      type="datetime-local"
-                      name="newEnd"
-                      value={editDates.newEnd}
-                      onChange={handleEditChange}
-                    />
-                    <button onClick={() => handleSaveChanges(res.id)}>
-                      Zapisz
-                    </button>
-                    <button onClick={cancelEditing}>
-                      Anuluj
-                    </button>
-                  </div>
-                ) : (
-                  // Guzik "Edytuj"
-                  <button onClick={() => startEditing(res.id)}>
-                    Edytuj
-                  </button>
-                )}
-              </li>
+              <strong>ID rezerwacji:</strong> {res.id},
+              <strong> Samochód:</strong> {res.car?.id} {/* skrót */}
+              <Link to={`/user/reservation/${res.id}`}>Szczegóły</Link>
+            </li>
             ))}
           </ul>
         )}

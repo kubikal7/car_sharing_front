@@ -17,7 +17,6 @@ function AdminPanel() {
     return <div>Ładowanie...</div>;
   }
 
-  // Jeśli wystąpił błąd, wyświetlamy komunikat
   if (isAdmin === false) {
     return <div>Blad autoryzacji</div>;
   }
