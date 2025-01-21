@@ -78,12 +78,16 @@ function User() {
   const handleSaveChanges = async (reservationId) => {
     const token = localStorage.getItem('token') || '';
     const newStartSeconds = editDates.newStart.length === 16
-      ? editDates.newStart + ':00'
+      ? editDates.newStart 
       : editDates.newStart;
     const newEndSeconds = editDates.newEnd.length === 16
-      ? editDates.newEnd + ':00'
+      ? editDates.newEnd
       : editDates.newEnd;
     try {
+      console.log({
+        newStart: newStartSeconds,
+        newEnd: newEndSeconds
+      })
       await axios.put(
         `http://localhost:8080/reservation/modify/${reservationId}`,
         {

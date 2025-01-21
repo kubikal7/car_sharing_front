@@ -198,7 +198,10 @@ function CarManagement() {
       alert('Nie udało się usunąć typu samochodu.');
     }
   };
-
+  if (!cars?.length || !carTypes?.length) {
+    return <div>Ładowanie</div>;
+  }
+  
   return (
     <LayoutAdmin>
       <h2>Zarządzanie samochodami</h2>
@@ -363,7 +366,10 @@ function CarManagement() {
               </form>
             ) : (
               <>
-                <b>{car.id}</b> {car.carType.brand}, {car.carType.model}, {car.carType.nrOfSeats}, {car.year}, {car.color}, {car.price_per_day} zł/dzień [{car.status}]
+                <b>{car.id}</b> {car.carType 
+    ? `${car.carType.brand}, ${car.carType.model}`
+    : '--- brak carType ---'
+  }, {car.year}, {car.color}, {car.price_per_day} zł/dzień [{car.status}]
                 <button onClick={() => startEdit(car)}>Edytuj</button>
                 <button onClick={() => handleDeleteCar(car.id)}>Usuń</button>
               </>
