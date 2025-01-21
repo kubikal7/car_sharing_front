@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../Styles/Layout.css'; // Importowanie pliku CSS
 import { useNavigate, Link } from 'react-router-dom';
+import { checkAdminStatus } from '../Scripts/checkAdmin';
 
 function Layout({ children }) {
     const navigate = useNavigate(); // Hook do nawigacji
@@ -13,6 +14,14 @@ function Layout({ children }) {
 
     // Sprawdzamy, czy token jest zapisany w localStorage
     const token = localStorage.getItem('token');
+
+  const [isAdmin, setIsAdmin] = useState(null);
+  useEffect(() => {
+    if(!token) return;
+    (async () => {
+      setIsAdmin(await checkAdminStatus(token) ? true : false);
+    })();
+  }, [token]);
 
   return (
     <div className="layout-container">
@@ -33,6 +42,9 @@ function Layout({ children }) {
                 <li><Link to="/login">Zaloguj się</Link></li>
                 <li><Link to="/register">Zarejestruj się</Link></li>
             </>
+          )}
+          {isAdmin && (
+            <li><Link to="/admin">Administrator</Link></li>
           )}
         </ul>
       </nav>

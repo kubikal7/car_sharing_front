@@ -1,0 +1,104 @@
+/* Container for reservation details */
+.reservation-details-container {
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .reservation-details-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  /* Details styling */
+  .reservation-details-container p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    color: #333;
+  }
+  
+  /* Adding class for labels, to mimic strong style */
+  .reservation-details-container p .label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Payment status */
+  .reservation-details-container .payment-status {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .reservation-details-container .payment-status p {
+    margin: 0;
+  }
+  
+  .reservation-details-container .payment-status .paid {
+    color: green;
+  }
+  
+  .reservation-details-container .payment-status .unpaid {
+    color: red;
+  }
+  
+  /* Edit reservation date section */
+  .reservation-details-container .edit-dates {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .reservation-details-container .edit-dates label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .reservation-details-container .edit-dates input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .reservation-details-container .edit-dates button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .reservation-details-container .edit-dates button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Link to go back to reservations */
+  .reservation-details-container .back-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .reservation-details-container .back-link:hover {
+    text-decoration: underline;
+  }
+  

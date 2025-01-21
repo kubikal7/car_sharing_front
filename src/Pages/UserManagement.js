@@ -68,7 +68,7 @@ function UserManagement() {
   // 6. Usuwanie samochodu
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:8080/user/${userId}`, {
+      await axios.delete(`http://localhost:8080/user/delete/${userId}`, {
         headers: { Authorization: token },
       });
       alert('Uzytkownik usunięty!');
@@ -83,7 +83,7 @@ function UserManagement() {
     <LayoutAdmin>
       <h2>Zarządzanie użytkownikami</h2>
 
-      {/* LISTA SAMOCHODÓW i EDYCJA */}
+      {/* LISTA UŻYTKOWNIKÓW i EDYCJA */}
       <h3>Lista użytkowników</h3>
       <ul>
         {users.map((user) => (
@@ -106,12 +106,6 @@ function UserManagement() {
                   type="text"
                   name="email"
                   value={editUserData.email}
-                  onChange={handleEditUserChange}
-                />
-                <input
-                  type="password"
-                  name="password"
-                  value={editUserData.password}
                   onChange={handleEditUserChange}
                 />
                 <input

@@ -2,22 +2,23 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Layout from '../Components/Layout';
 import { Link } from 'react-router-dom';
+import "../Styles/User.css"
 
 function User() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-
   const [reservations, setReservations] = useState([]);
-
-  //przechowujemy dane do edycji (transakcja ID oraz nowe daty)
-  const [editReservationId, setEditReservationId] = useState(null);
-  const [editDates, setEditDates] = useState({ newStart: '', newEnd: '' });
-
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    date_of_birth: '',
+    country: '',
+  });
 
   useEffect(() => {
-    //token z localStorage
     const token = localStorage.getItem('token') || '';
 
     if (!token) {
@@ -29,11 +30,16 @@ function User() {
     const fetchUserData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/user/', {
-          headers: {
-            'Authorization': token //Dodaj token do nagłówka
-          },
+          headers: { Authorization: token },
         });
-        setUserData(response.data); //Ustaw dane użytkownika
+        setUserData(response.data);
+        setEditData({
+          name: response.data.name,
+          surname: response.data.surname,
+          email: response.data.email,
+          date_of_birth: response.data.date_of_birth,
+          country: response.data.country,
+        });
       } catch (err) {
         setError('Błąd podczas pobierania danych użytkownika.');
         console.error(err);
@@ -41,77 +47,51 @@ function User() {
         setLoading(false);
       }
     };
-    //rezerwacje użytkownika
+
     const fetchUserReservations = async () => {
       try {
         const res = await axios.get('http://localhost:8080/reservation/user/reservations', {
-          headers: { Authorization: token }
+          headers: { Authorization: token },
         });
-        setReservations(res.data); //Zapisz rezerwacje w stanie
+        setReservations(res.data);
       } catch (err) {
         console.error('Błąd pobierania rezerwacji:', err);
       }
     };
-    fetchUserData(); 
-    fetchUserReservations(); 
+
+    fetchUserData();
+    fetchUserReservations();
   }, []);
 
-     //OBSŁUGA EDYCJI REZERWACJI 
-  const handleEditChange = (e) => {
+  const handleEditToggle = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditDates((prev) => ({
-      ...prev,
-      [name]: value
+    setEditData((prevData) => ({
+      ...prevData,
+      [name]: value,
     }));
   };
 
-  const startEditing = (reservationId) => {
-    setEditReservationId(reservationId);
-    setEditDates({ newStart: '', newEnd: '' });
-  };
-
-  const cancelEditing = () => {
-    setEditReservationId(null);
-    setEditDates({ newStart: '', newEnd: '' });
-  };
-
-  const handleSaveChanges = async (reservationId) => {
+  const handleSaveChanges = async () => {
     const token = localStorage.getItem('token') || '';
-    const newStartSeconds = editDates.newStart.length === 16
-      ? editDates.newStart 
-      : editDates.newStart;
-    const newEndSeconds = editDates.newEnd.length === 16
-      ? editDates.newEnd
-      : editDates.newEnd;
     try {
-      console.log({
-        newStart: newStartSeconds,
-        newEnd: newEndSeconds
-      })
       await axios.put(
-        `http://localhost:8080/reservation/modify/${reservationId}`,
-        {
-          newStart: newStartSeconds,
-          newEnd: newEndSeconds
-        },
-        {
-          headers: { Authorization: token }
-        }
+        `http://localhost:8080/user/modify/${userData.id}`,
+        editData,
+        { headers: { Authorization: token } }
       );
-      alert('Rezerwacja zaktualizowana!');
-      // Odśwież listę
-      const newList = await axios.get('http://localhost:8080/reservation/user/reservations', {
-        headers: { Authorization: token }
-      });
-      setReservations(newList.data);
-      setEditReservationId(null);
-      setEditDates({ newStart: '', newEnd: '' });
+      alert('Zmiany zostały zapisane!');
+      setUserData({ ...userData, ...editData });
+      setEditMode(false);
     } catch (err) {
-      console.error('Błąd przy edycji rezerwacji:', err);
-      alert('Nie udało się zmodyfikować rezerwacji.');
+      console.error('Błąd zapisywania zmian:', err);
+      alert('Nie udało się zapisać zmian.');
     }
   };
-  
+
   if (loading) {
     return <div>Ładowanie...</div>;
   }
@@ -126,17 +106,71 @@ function User() {
 
   return (
     <Layout>
-        <div>
+      <div className="user-info-container">
         <h1>Informacje o użytkowniku</h1>
-        <p><strong>Imię:</strong> {userData.name}</p>
-        <p><strong>Nazwisko:</strong> {userData.surname}</p>
-        <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>Data urodzenia:</strong> {userData.date_of_birth}</p>
-        <p><strong>Kraj:</strong> {userData.country}</p>
-        <p><strong>Rola:</strong> {userData.role}</p>
-        </div>
-         {/* Lista rezerwacji i edycja */}
-      <div style={{ marginTop: '2rem' }}>
+        {editMode ? (
+          <div>
+            <label>
+              Imię:
+              <input
+                type="text"
+                name="name"
+                value={editData.name}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Nazwisko:
+              <input
+                type="text"
+                name="surname"
+                value={editData.surname}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                name="email"
+                value={editData.email}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Data urodzenia:
+              <input
+                type="date"
+                name="date_of_birth"
+                value={editData.date_of_birth}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Kraj:
+              <input
+                type="text"
+                name="country"
+                value={editData.country}
+                onChange={handleInputChange}
+              />
+            </label>
+            <button onClick={handleSaveChanges}>Zapisz zmiany</button>
+            <button onClick={handleEditToggle}>Anuluj</button>
+          </div>
+        ) : (
+          <div>
+            <p><strong>Imię:</strong> {userData.name}</p>
+            <p><strong>Nazwisko:</strong> {userData.surname}</p>
+            <p><strong>Email:</strong> {userData.email}</p>
+            <p><strong>Data urodzenia:</strong> {userData.date_of_birth}</p>
+            <p><strong>Kraj:</strong> {userData.country}</p>
+            <button onClick={handleEditToggle}>Edytuj dane</button>
+          </div>
+        )}
+      </div>
+
+      <div className="reservations-container">
         <h2>Moje rezerwacje</h2>
         {reservations.length === 0 ? (
           <p>Brak rezerwacji.</p>
@@ -144,10 +178,10 @@ function User() {
           <ul>
             {reservations.map((res) => (
               <li key={res.id}>
-              <strong>ID rezerwacji:</strong> {res.id},
-              <strong> Samochód:</strong> {res.car?.id} {/* skrót */}
-              <Link to={`/user/reservation/${res.id}`}>Szczegóły</Link>
-            </li>
+                <strong>ID rezerwacji:</strong> {res.id},
+                <strong> Samochód:</strong> {res.car?.id}
+                <Link to={`/user/reservation/${res.id}`}>Szczegóły</Link>
+              </li>
             ))}
           </ul>
         )}

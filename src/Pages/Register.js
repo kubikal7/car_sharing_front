@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Layout from '../Components/Layout';
+import "../Styles/Login.css"
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -57,10 +58,10 @@ function Register() {
 
   return (
     <Layout>
+      <div className="form-container">
       <h2>Rejestracja</h2>
+      {error && <p>{error}</p>}
       <form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-
         <label>
           Imię:
           <input
@@ -71,7 +72,6 @@ function Register() {
             required
           />
         </label>
-        <br />
 
         <label>
           Nazwisko:
@@ -83,7 +83,6 @@ function Register() {
             required
           />
         </label>
-        <br />
 
         <label>
           Email:
@@ -95,7 +94,6 @@ function Register() {
             required
           />
         </label>
-        <br />
 
         <label>
           Hasło:
@@ -107,7 +105,6 @@ function Register() {
             required
           />
         </label>
-        <br />
 
         <label>
           Kraj:
@@ -119,7 +116,6 @@ function Register() {
             required
           />
         </label>
-        <br />
 
         <label>
           Data urodzenia:
@@ -131,10 +127,12 @@ function Register() {
             required
           />
         </label>
-        <br />
 
-        <button type="button" onClick={handleClick}>Zarejestruj się</button>
+        <button type="button" onClick={handleClick}>
+          Zarejestruj się
+        </button>
       </form>
+    </div>
     </Layout>
   );
 }

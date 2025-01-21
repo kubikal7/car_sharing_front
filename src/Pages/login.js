@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Layout from '../Components/Layout';
 import { useNavigate } from 'react-router-dom';
+import "../Styles/Login.css"
 
 function Login() {
   const navigate = useNavigate();
@@ -48,30 +49,30 @@ function Login() {
 
   return (
     <Layout>
-      <div className="login-form">
-        <h2>Logowanie</h2>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Wprowadź email"
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Hasło</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Wprowadź hasło"
-          />
-        </div>
-        <button onClick={handleLogin}>Zaloguj się</button>
+      <div className="form-container">
+      <h2>Logowanie</h2>
+      <div>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Wprowadź email"
+        />
       </div>
+      <div>
+        <label htmlFor="password">Hasło</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Wprowadź hasło"
+        />
+      </div>
+      <button onClick={handleLogin}>Zaloguj się</button>
+    </div>
     </Layout>
   );
 }

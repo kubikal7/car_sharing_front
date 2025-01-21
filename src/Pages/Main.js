@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Layout from '../Components/Layout';
+import "../Styles/Main.css"
 
 function Main() {
   const [searchDates, setSearchDates] = useState({
@@ -66,11 +67,9 @@ function Main() {
 
   return (
     <Layout>
-      <h2>Strona główna</h2>
-      <p>Wyszukaj dostępne samochody w podanym terminie:</p>
+      <p className="home-description">Wyszukaj dostępne samochody w podanym terminie:</p>
 
-      {/* podanie dat */}
-      <form onSubmit={handleSearch}>
+      <form onSubmit={handleSearch} className="search-form">
         <div>
           <label>Data początkowa (LocalDateTime):</label>
           <input
@@ -98,19 +97,25 @@ function Main() {
 
       {/* dostępne samochody */}
       {availableCars.length > 0 && (
-        <div style={{ marginTop: '2rem' }}>
+        <div className="available-cars-container">
           <h3>Dostępne samochody:</h3>
-          <ul>
+          <ul className="available-cars-list">
             {availableCars.map((car) => (
               <li key={car.id}>
-                ID: {car.id}, kolor: {car.color}, rok: {car.year}, cena/dzień: {car.price_per_day}
-                {car.carType && (
-                  <>
-                    , typ: {car.carType.brand} {car.carType.model} ({car.carType.nrOfSeats} miejsc)
-                  </>
-                )}
-                &nbsp;
-                <button onClick={() => handleReserve(car.id)}>Rezerwuj</button>
+                <div className="available-car-info">
+                  ID: {car.id}, kolor: {car.color}, rok: {car.year}, cena/dzień: {car.price_per_day}
+                  {car.carType && (
+                    <span className="available-car-type">
+                      , typ: {car.carType.brand} {car.carType.model} ({car.carType.nrOfSeats} miejsc)
+                    </span>
+                  )}
+                </div>
+                <button
+                  className="reserve-button"
+                  onClick={() => handleReserve(car.id)}
+                >
+                  Rezerwuj
+                </button>
               </li>
             ))}
           </ul>

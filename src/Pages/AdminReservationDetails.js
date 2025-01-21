@@ -8,20 +8,23 @@ function AdminReservationDetails() {
   const [reservation, setReservation] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [newStartDate, setNewStartDate] = useState('');
+  const [newEndDate, setNewEndDate] = useState('');
   const token = localStorage.getItem('token') || '';
 
-  //WSZYSTKIE rezerwacje, znajdź id == :id
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get('http://localhost:8080/reservation/all', {
-          headers: { Authorization: token }
+          headers: { Authorization: token },
         });
         const found = res.data.find((r) => r.id === Number(id));
         if (!found) {
           setError('Nie znaleziono rezerwacji o ID=' + id);
         } else {
           setReservation(found);
+          setNewStartDate(found.startDate || '');
+          setNewEndDate(found.endDate || '');
         }
       } catch (err) {
         console.error(err);
@@ -33,7 +36,7 @@ function AdminReservationDetails() {
     fetchData();
   }, [id, token]);
 
-  // 2. Anulowanie rezerwacji
+  // Anulowanie rezerwacji
   const handleCancel = async () => {
     if (!reservation) return;
     try {
@@ -43,7 +46,6 @@ function AdminReservationDetails() {
         { headers: { Authorization: token } }
       );
       alert('Rezerwacja anulowana!');
-      // odśwież dane lub przeładuj
       window.location.reload();
     } catch (err) {
       console.error(err);
@@ -51,14 +53,13 @@ function AdminReservationDetails() {
     }
   };
 
-  // 3. Oznaczenie jako opłacone
-  // type 'CASH' lub 'CARD' 
+  // Oznaczenie jako opłacone
   const handlePay = async (payType) => {
     if (!reservation) return;
     try {
       await axios.post(
         `http://localhost:8080/payment/pay/${reservation.id}`,
-        { type: payType }, 
+        { type: payType },
         { headers: { Authorization: token } }
       );
       alert('Rezerwacja opłacona metodą: ' + payType);
@@ -69,19 +70,39 @@ function AdminReservationDetails() {
     }
   };
 
+  // Aktualizacja dat
+  const handleUpdateDates = async () => {
+    if (!reservation) return;
+    try {
+      await axios.put(
+        `http://localhost:8080/reservation/modify/${reservation.id}`,
+        { newStart: newStartDate, newEnd: newEndDate },
+        { headers: { Authorization: token } }
+      );
+      alert('Daty zaktualizowane!');
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      alert('Błąd przy aktualizacji dat.');
+    }
+  };
+
   if (loading) {
     return <LayoutAdmin>Ładowanie...</LayoutAdmin>;
   }
 
   if (error) {
-    return <LayoutAdmin><p style={{ color: 'red' }}>{error}</p></LayoutAdmin>;
+    return (
+      <LayoutAdmin>
+        <p style={{ color: 'red' }}>{error}</p>
+      </LayoutAdmin>
+    );
   }
 
   if (!reservation) {
     return <LayoutAdmin>Brak danych rezerwacji</LayoutAdmin>;
   }
 
-  //czy jest opłacone
   const isPaid = !!reservation.payment;
 
   return (
@@ -95,7 +116,6 @@ function AdminReservationDetails() {
       <p><strong>Status:</strong> {reservation.status}</p>
       <p><strong>Cena:</strong> {reservation.price} zł</p>
 
-      {/* płatności */}
       {isPaid ? (
         <div style={{ color: 'green' }}>
           <p><strong>OPŁACONE</strong></p>
@@ -105,22 +125,47 @@ function AdminReservationDetails() {
       ) : (
         <div style={{ color: 'red' }}>
           <p><strong>NIEOPŁACONE</strong></p>
-          {/* przyciski do oznaczania płatności */}
-          <button onClick={() => handlePay('CASH')}>
-            Oznacz jako opłacone (CASH)
-          </button>
-          <button onClick={() => handlePay('CARD')} style={{ marginLeft: '1rem' }}>
+          <button onClick={() => handlePay('cash')}>Oznacz jako opłacone (CASH)</button>
+          <button onClick={() => handlePay('card')} style={{ marginLeft: '1rem' }}>
             Oznacz jako opłacone (CARD)
           </button>
         </div>
       )}
 
-      {/* Możliwość anulowania (jeśli nie jest canceled) */}
       {reservation.status !== 'canceled' && (
         <button onClick={handleCancel} style={{ display: 'block', marginTop: '1rem' }}>
           Anuluj rezerwację
         </button>
       )}
+
+      <div style={{ marginTop: '2rem' }}>
+        <h3>Edytuj daty rezerwacji</h3>
+        <label>
+          Nowa data rozpoczęcia:
+          <input
+            type="datetime-local"
+            value={newStartDate}
+            onChange={(e) => setNewStartDate(e.target.value)}
+            style={{ marginLeft: '1rem' }}
+          />
+        </label>
+        <br />
+        <label>
+          Nowa data zakończenia:
+          <input
+            type="datetime-local"
+            value={newEndDate}
+            onChange={(e) => setNewEndDate(e.target.value)}
+            style={{ marginLeft: '1rem', marginTop: '1rem' }}
+          />
+        </label>
+        <br />
+        <button
+          onClick={handleUpdateDates}
+        >
+          Zapisz zmiany
+        </button>
+      </div>
 
       <Link to="/admin-reservations" style={{ marginLeft: '0', marginTop: '1rem', display: 'inline-block' }}>
         Powrót do listy
