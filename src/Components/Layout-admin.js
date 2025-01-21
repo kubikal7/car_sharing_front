@@ -1,17 +1,15 @@
 import React from 'react';
-import '../Styles/Layout.css'; // Importowanie pliku CSS
+import '../Styles/Layout.css';
 import { useNavigate, Link } from 'react-router-dom';
 
 function LayoutAdmin({ children }) {
-    const navigate = useNavigate(); // Hook do nawigacji
+    const navigate = useNavigate(); 
   
-    // Funkcja do wylogowania (czyszczenie tokenu z localStorage)
+    //Funkcja do wylogowania 
     const handleLogout = () => {
-      localStorage.removeItem('token'); // Usuwamy token
-      navigate('/'); // Programowo przekierowujemy na stronę główną
+      localStorage.removeItem('token'); //Usuwamy token
+      navigate('/');
     };
-
-    // Sprawdzamy, czy token jest zapisany w localStorage
     const token = localStorage.getItem('token');
 
   return (
@@ -27,7 +25,9 @@ function LayoutAdmin({ children }) {
                 <li><Link to="/admin-reservations">Rezerwacje</Link></li>
                 <li><Link to="/admin-cars">Samochody</Link></li>
                 <li><Link to="/admin-users">Użytkownicy</Link></li>
+                <li><Link to="/admin-payments">Płatności</Link></li>
                 <li><Link to="/admin-add">Dodaj admina</Link></li>
+                <li><Link to="/admin-service-history">Historia serwisowa</Link></li>
                 <li><button onClick={handleLogout}>Wyloguj się</button></li>
             </>
           )}

@@ -40,7 +40,7 @@ function CarManagement() {
     })();
   }, [token]);
 
-  // 1. Pobranie listy samochodów
+  //Pobranie listy samochodów
   const fetchCars = async () => {
     try {
       const res = await axios.get('http://localhost:8080/cars/all');
@@ -64,7 +64,7 @@ function CarManagement() {
     fetchCarsTypes();
   }, [isAdmin]);
 
-  // 2. Dodawanie nowego samochodu
+  //Dodawanie nowego samochodu
   const handleNewCarChange = (e) => {
     const { name, value } = e.target;
     setNewCar((prev) => ({ ...prev, [name]: value }));
@@ -79,7 +79,7 @@ function CarManagement() {
         { headers: { Authorization: token } }
       );
       alert('Samochód dodany!');
-      fetchCars(); // odśwież listę
+      fetchCars(); 
     } catch (err) {
       console.error('Błąd przy dodawaniu samochodu:', err);
       alert('Nie udało się dodać samochodu.');
@@ -100,23 +100,23 @@ function CarManagement() {
         { headers: { Authorization: token } }
       );
       alert('Samochód dodany!');
-      fetchCarsTypes(); // odśwież listę
+      fetchCarsTypes(); 
     } catch (err) {
       console.error('Błąd przy dodawaniu typu samochodu:', err);
       alert('Nie udało się dodać typu samochodu.');
     }
   };
 
-  // 3. Rozpoczęcie edycji
+  //Rozpoczęcie edycji
   const startEdit = (car) => {
     setEditCarId(car.id);
     setEditCarData((prev) => ({
-      ...prev, // Kopiowanie poprzedniego stanu
-      car_type_id: car.carType.id, // Nadpisanie tylko car_type_id
-      year: car.year, // Nadpisanie year
-      color: car.color, // Nadpisanie color
-      price_per_day: car.price_per_day, // Nadpisanie price_per_day
-      status: car.status, // Nadpisanie status
+      ...prev, 
+      car_type_id: car.carType.id, 
+      year: car.year,
+      color: car.color, 
+      price_per_day: car.price_per_day, 
+      status: car.status, 
     }));
   };
 
@@ -125,13 +125,13 @@ function CarManagement() {
     setEditCarTypeData({ ...carType });
   };
 
-  // 4. Zmiana pól edytowanego samochodu
+  //Zmiana pól edytowanego samochodu
   const handleEditCarChange = (e) => {
     const { name, value } = e.target;
     setEditCarData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 5. Zatwierdzenie edycji
+  //Zatwierdzenie edycji
   const handleUpdateCar = async (e) => {
     e.preventDefault();
     try {
@@ -154,7 +154,6 @@ function CarManagement() {
     setEditCarTypeData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 5. Zatwierdzenie edycji
   const handleUpdateCarType = async (e) => {
     e.preventDefault();
     try {
@@ -172,7 +171,7 @@ function CarManagement() {
     }
   };
 
-  // 6. Usuwanie samochodu
+  //Usuwanie samochodu
   const handleDeleteCar = async (carId) => {
     try {
       await axios.delete(`http://localhost:8080/cars/${carId}`, {
@@ -206,7 +205,7 @@ function CarManagement() {
     <LayoutAdmin>
       <h2>Zarządzanie samochodami</h2>
 
-      {/* FORMULARZ DODAWANIA */}
+      {/* DODAWANIE */}
       <form onSubmit={handleAddCarType}>
         <h3>Dodaj typ samochodu</h3>
         <label>Brand:</label>
@@ -274,7 +273,7 @@ function CarManagement() {
 
       
 
-      {/* FORMULARZ DODAWANIA */}
+      {/* DODAWANIE */}
       <form onSubmit={handleAddCar}>
         <h3>Dodaj samochód</h3>
         <label>Numer rejestracyjny:</label>
@@ -367,9 +366,9 @@ function CarManagement() {
             ) : (
               <>
                 <b>{car.id}</b> {car.carType 
-    ? `${car.carType.brand}, ${car.carType.model}`
-    : '--- brak carType ---'
-  }, {car.year}, {car.color}, {car.price_per_day} zł/dzień [{car.status}]
+                  ? `${car.carType.brand}, ${car.carType.model}`
+                  : '--- brak carType ---'
+                }, {car.year}, {car.color}, {car.price_per_day} zł/dzień [{car.status}]
                 <button onClick={() => startEdit(car)}>Edytuj</button>
                 <button onClick={() => handleDeleteCar(car.id)}>Usuń</button>
               </>

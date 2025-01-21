@@ -12,6 +12,10 @@ import CarManagement from './Pages/CarManagement';
 import AdminPanel from './Pages/AdminPanel';
 import UserManagement from './Pages/UserManagement';
 import AddAdmin from './Pages/AddAdmin';
+import AdminPayments from './Pages/AdminPayments';
+import UserReservationDetails from './Pages/UserReservationDetails'; 
+import AdminReservationDetails from './Pages/AdminReservationDetails';
+import AdminServiceHistory from './Pages/AdminServiceHistory';
 
 function App() {
   return (
@@ -27,6 +31,11 @@ function App() {
         <Route path="/admin" element={<AdminPanel/>}/>
         <Route path="/admin-users" element={<UserManagement/>}/>
         <Route path="/admin-add" element={<AddAdmin/>}/>
+        <Route path="/admin-payments" element={<AdminPayments/>} />
+        <Route path="/user/reservation/:reservationId" element={<UserReservationDetails />} />
+        <Route path="/admin-reservations" element={<ReservationsManagement />} />
+        <Route path="/admin/reservation/:id" element={<AdminReservationDetails />} />
+        <Route path="/admin-service-history" element={<AdminServiceHistory />}/>
       </Routes>
     </BrowserRouter>
   );

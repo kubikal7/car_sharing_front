@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LayoutAdmin from '../Components/Layout-admin';
+import { Link } from 'react-router-dom';
 
 function ReservationsManagement() {
   const [reservations, setReservations] = useState([]);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token') || '';
 
-  // 1. Pobierz wszystkie rezerwacje (endpoint np. GET /reservation/all)
+  useEffect(() => {
+    fetchAllReservations();
+  }, []);
+
   const fetchAllReservations = async () => {
     try {
       const res = await axios.get('http://localhost:8080/reservation/all', {
@@ -15,24 +19,6 @@ function ReservationsManagement() {
       setReservations(res.data);
     } catch (err) {
       console.error('Błąd przy pobieraniu rezerwacji:', err);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllReservations();
-  }, []);
-
-  // 2. Anuluj rezerwację
-  const handleCancel = async (resId) => {
-    try {
-      await axios.put(`http://localhost:8080/reservation/cancel/${resId}`, null, {
-        headers: { Authorization: token },
-      });
-      alert('Rezerwacja anulowana!');
-      fetchAllReservations();
-    } catch (err) {
-      console.error('Błąd przy anulowaniu rezerwacji:', err);
-      alert('Nie udało się anulować rezerwacji.');
     }
   };
 
@@ -45,12 +31,13 @@ function ReservationsManagement() {
         <ul>
           {reservations.map((r) => (
             <li key={r.id}>
-              ID: {r.id}, Użytkownik: {r.user?.name} {r.user?.surname},
-              Samochód: {r.car?.id},
-              Od: {r.startDate}, Do: {r.endDate}, Status: {r.status}
-              {r.status !== 'canceled' && (
-                <button onClick={() => handleCancel(r.id)}>Anuluj</button>
-              )}
+              <strong>ID:</strong> {r.id},
+              <strong> Użytkownik:</strong> {r.user?.name} {r.user?.surname},
+              <strong> Samochód:</strong> {r.car?.id},
+              <strong> Status:</strong> {r.status}
+              {/* szczegóły */}
+              {' '}
+              <Link to={`/admin/reservation/${r.id}`}>Szczegóły</Link>
             </li>
           ))}
         </ul>
