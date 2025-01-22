@@ -48,4 +48,62 @@
     text-align: center;
     padding: 0.5rem;
   }
-  
+  /* Kontener całości sekcji rezerwacji w panelu admina */
+.admin-reservations-page {
+  max-width: 900px;         /* szerokość kontenera */
+  margin: 0 auto;           /* wycentrowanie */
+  padding: 2rem;            /* odstępy wewnętrzne */
+  background-color: #fff;   /* białe tło */
+  border-radius: 8px;       /* zaokrąglone rogi */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* delikatny cień */
+}
+
+/* Tytuł sekcji */
+.admin-reservations-page h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Lista rezerwacji */
+.reservation-list {
+  list-style: none;       /* bez kropek */
+  margin: 0;
+  padding: 0;
+}
+
+/* Pojedynczy element na liście rezerwacji */
+.reservation-item {
+  display: flex;         
+  justify-content: space-between; 
+  align-items: center;   
+  margin-bottom: 1rem;
+  background-color: #f9f9f9; /* jasne tło */
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  transition: background-color 0.2s;
+}
+
+.reservation-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Sekcja z opisem ID, Użytkownik, Samochód... */
+.reservation-info {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Link „Szczegóły” */
+.reservation-details-link {
+  color: #007bff;        /* niebieski link (bootstrap style) */
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 1rem;
+  transition: color 0.2s;
+}
+
+.reservation-details-link:hover {
+  color: #0056b3;       /* ciemniejszy niebieski przy hover */
+  text-decoration: underline;
+}

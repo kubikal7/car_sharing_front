@@ -22,28 +22,31 @@ function ReservationsManagement() {
     }
   };
 
-  return (
-    <LayoutAdmin>
-      <h2>Zarządzaj rezerwacjami</h2>
-      {reservations.length === 0 ? (
-        <p>Brak rezerwacji.</p>
-      ) : (
-        <ul>
-          {reservations.map((r) => (
-            <li key={r.id}>
-              <strong>ID:</strong> {r.id},
-              <strong> Użytkownik:</strong> {r.user?.name} {r.user?.surname},
-              <strong> Samochód:</strong> {r.car?.id},
-              <strong> Status:</strong> {r.status}
-              {/* szczegóły */}
-              {' '}
-              <Link to={`/admin/reservation/${r.id}`}>Szczegóły</Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </LayoutAdmin>
-  );
+    return (
+      <LayoutAdmin>
+        <div className="admin-reservations-page">
+          <h2>Zarządzaj rezerwacjami</h2>
+          <ul className="reservation-list">
+            {reservations.map((r) => (
+              <li key={r.id} className="reservation-item">
+                <div className="reservation-info">
+                  <strong>ID: {r.id}</strong>, 
+                  Użytkownik: {r.user?.name} {r.user?.surname}, 
+                  Samochód: {r.car?.id}, 
+                  Status: {r.status}
+                </div>
+                <div>
+                  <Link to={`/admin/reservation/${r.id}`} className="reservation-details-link">
+                    Szczegóły
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </LayoutAdmin>
+    );
+
 }
 
 export default ReservationsManagement;

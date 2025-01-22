@@ -2,28 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LayoutAdmin from '../Components/Layout-admin';
 import { checkAdminStatus } from '../Scripts/checkAdmin';
+// Uwaga: Link do szczegółów
+import { Link } from 'react-router-dom';
 
 function CarManagement() {
   const [cars, setCars] = useState([]);
-  const [newCar, setNewCar] = useState({
-    id: '',
-    car_type_id: 0, 
-    year: '',
-    color: '',
-    price_per_day: '',
-    status: 'available',
-  });
-  const [editCarId, setEditCarId] = useState(null);
-  const [editCarData, setEditCarData] = useState({
-    car_type_id: 1, 
-    year: '',
-    color: '',
-    price_per_day: '',
-    status: 'available',
-  });
-
   const [carTypes, setCarTypes] = useState([]);
-  const [newCarType, setNewCarType] = useState({ 
+
+  // Sekcja typów samochodów
+  const [newCarType, setNewCarType] = useState({
     brand: '',
     model: '',
     nrOfSeats: 5,
@@ -31,58 +18,39 @@ function CarManagement() {
   const [editCarTypeID, setEditCarTypeID] = useState(null);
   const [editCarTypeData, setEditCarTypeData] = useState({});
 
-  const token = localStorage.getItem('token');
+  // Sekcja konkretnych samochodów
+  const [newCar, setNewCar] = useState({
+    id: '',
+    car_type_id: 0,
+    year: '',
+    color: '',
+    price_per_day: '',
+    status: 'available',
+  });
 
+  const [token] = useState(localStorage.getItem('token') || '');
   const [isAdmin, setIsAdmin] = useState(null);
+
   useEffect(() => {
     (async () => {
-      setIsAdmin(await checkAdminStatus(token) ? true : false);
+      // Sprawdzanie czy user jest adminem
+      setIsAdmin(await checkAdminStatus(token));
     })();
   }, [token]);
 
-  //Pobranie listy samochodów
-  const fetchCars = async () => {
-    try {
-      const res = await axios.get('http://localhost:8080/cars/all');
-      setCars(res.data);
-    } catch (err) {
-      console.error('Błąd przy pobieraniu listy samochodów:', err);
-    }
-  };
-  const fetchCarsTypes = async () => {
+  useEffect(() => {
+    if (!isAdmin) return;
+    fetchCarTypes();
+    fetchCars();
+  }, [isAdmin]);
+
+  // ------------ Funkcje do CarType ------------
+  const fetchCarTypes = async () => {
     try {
       const res = await axios.get('http://localhost:8080/cartype/all');
       setCarTypes(res.data);
     } catch (err) {
-      console.error('Błąd przy pobieraniu listy samochodów:', err);
-    }
-  };
-
-  useEffect(() => {
-    if (isAdmin === null || isAdmin === false) return;
-    fetchCars();
-    fetchCarsTypes();
-  }, [isAdmin]);
-
-  //Dodawanie nowego samochodu
-  const handleNewCarChange = (e) => {
-    const { name, value } = e.target;
-    setNewCar((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleAddCar = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        'http://localhost:8080/cars/add',
-        newCar,
-        { headers: { Authorization: token } }
-      );
-      alert('Samochód dodany!');
-      fetchCars(); 
-    } catch (err) {
-      console.error('Błąd przy dodawaniu samochodu:', err);
-      alert('Nie udało się dodać samochodu.');
+      console.error('Błąd przy pobieraniu typów samochodów:', err);
     }
   };
 
@@ -94,59 +62,20 @@ function CarManagement() {
   const handleAddCarType = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        'http://localhost:8080/cartype/add',
-        newCarType,
-        { headers: { Authorization: token } }
-      );
-      alert('Samochód dodany!');
-      fetchCarsTypes(); 
+      await axios.post('http://localhost:8080/cartype/add', newCarType, {
+        headers: { Authorization: token },
+      });
+      alert('Typ samochodu dodany!');
+      fetchCarTypes();
     } catch (err) {
       console.error('Błąd przy dodawaniu typu samochodu:', err);
       alert('Nie udało się dodać typu samochodu.');
     }
   };
 
-  //Rozpoczęcie edycji
-  const startEdit = (car) => {
-    setEditCarId(car.id);
-    setEditCarData((prev) => ({
-      ...prev, 
-      car_type_id: car.carType.id, 
-      year: car.year,
-      color: car.color, 
-      price_per_day: car.price_per_day, 
-      status: car.status, 
-    }));
-  };
-
   const startEditType = (carType) => {
     setEditCarTypeID(carType.id);
     setEditCarTypeData({ ...carType });
-  };
-
-  //Zmiana pól edytowanego samochodu
-  const handleEditCarChange = (e) => {
-    const { name, value } = e.target;
-    setEditCarData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  //Zatwierdzenie edycji
-  const handleUpdateCar = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(
-        `http://localhost:8080/cars/${editCarId}`,
-        editCarData,
-        { headers: { Authorization: token } }
-      );
-      alert('Samochód zaktualizowany!');
-      setEditCarId(null);
-      fetchCars();
-    } catch (err) {
-      console.error('Błąd przy aktualizacji samochodu:', err);
-      alert('Nie udało się zaktualizować samochodu.');
-    }
   };
 
   const handleEditCarTypeChange = (e) => {
@@ -164,24 +93,10 @@ function CarManagement() {
       );
       alert('Typ samochodu zaktualizowany!');
       setEditCarTypeID(null);
-      fetchCarsTypes();
+      fetchCarTypes();
     } catch (err) {
       console.error('Błąd przy aktualizacji typu samochodu:', err);
       alert('Nie udało się zaktualizować typu samochodu.');
-    }
-  };
-
-  //Usuwanie samochodu
-  const handleDeleteCar = async (carId) => {
-    try {
-      await axios.delete(`http://localhost:8080/cars/${carId}`, {
-        headers: { Authorization: token },
-      });
-      alert('Samochód usunięty!');
-      fetchCars();
-    } catch (err) {
-      console.error('Błąd przy usuwaniu samochodu:', err);
-      alert('Nie udało się usunąć samochodu.');
     }
   };
 
@@ -191,53 +106,90 @@ function CarManagement() {
         headers: { Authorization: token },
       });
       alert('Typ samochodu usunięty!');
-      fetchCarsTypes();
+      fetchCarTypes();
     } catch (err) {
       console.error('Błąd przy usuwaniu typu samochodu:', err);
       alert('Nie udało się usunąć typu samochodu.');
     }
   };
-  if (!cars?.length || !carTypes?.length) {
-    return <div>Ładowanie</div>;
+
+  // ------------ Funkcje do Car ------------
+  const fetchCars = async () => {
+    try {
+      const res = await axios.get('http://localhost:8080/cars/all');
+      setCars(res.data);
+    } catch (err) {
+      console.error('Błąd przy pobieraniu listy samochodów:', err);
+    }
+  };
+
+  const handleNewCarChange = (e) => {
+    const { name, value } = e.target;
+    setNewCar((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddCar = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(
+        'http://localhost:8080/cars/add',
+        newCar,
+        { headers: { Authorization: token } }
+      );
+      alert('Samochód dodany!');
+      fetchCars();
+    } catch (err) {
+      console.error('Błąd przy dodawaniu samochodu:', err);
+      alert('Nie udało się dodać samochodu.');
+    }
+  };
+
+  // (Edycję i usuwanie przenosimy do osobnej podstrony – AdminCarDetails.js)
+
+  if (isAdmin === null) {
+    return <LayoutAdmin>Ładowanie...</LayoutAdmin>;
   }
-  
+  if (!isAdmin) {
+    return <LayoutAdmin>Brak uprawnień.</LayoutAdmin>;
+  }
+
   return (
     <LayoutAdmin>
       <h2>Zarządzanie samochodami</h2>
 
-      {/* DODAWANIE */}
+      {/* SEKCJA TYPÓW SAMOCHODU (bez zmian) */}
       <form onSubmit={handleAddCarType}>
         <h3>Dodaj typ samochodu</h3>
         <label>Brand:</label>
         <input
           type="text"
           name="brand"
-          value={newCar.brand}
+          value={newCarType.brand}
           onChange={handleNewCarTypeChange}
         />
         <label>Model:</label>
         <input
           type="text"
           name="model"
-          value={newCar.model}
+          value={newCarType.model}
           onChange={handleNewCarTypeChange}
         />
         <label>Liczba miejsc:</label>
         <input
           type="number"
           name="nrOfSeats"
-          value={newCar.nrOfSeats}
+          value={newCarType.nrOfSeats}
           onChange={handleNewCarTypeChange}
         />
         <button type="submit">Dodaj</button>
       </form>
 
-      {/* LISTA SAMOCHODÓW i EDYCJA */}
       <h3>Lista typów samochodów</h3>
       <ul>
         {carTypes.map((carType) => (
           <li key={carType.id}>
             {editCarTypeID === carType.id ? (
+              // Edycja typu
               <form onSubmit={handleUpdateCarType}>
                 <input
                   type="text"
@@ -258,11 +210,13 @@ function CarManagement() {
                   onChange={handleEditCarTypeChange}
                 />
                 <button type="submit">Zapisz</button>
-                <button onClick={() => setEditCarTypeID(null)}>Anuluj</button>
+                <button type="button" onClick={() => setEditCarTypeID(null)}>
+                  Anuluj
+                </button>
               </form>
             ) : (
               <>
-                <b>{carType.id}</b> {carType.brand}, {carType.model}, {carType.nrOfSeats}
+                <b>{carType.id}</b> {carType.brand}, {carType.model} ({carType.nrOfSeats} miejsc)
                 <button onClick={() => startEditType(carType)}>Edytuj</button>
                 <button onClick={() => handleDeleteCarType(carType.id)}>Usuń</button>
               </>
@@ -271,9 +225,7 @@ function CarManagement() {
         ))}
       </ul>
 
-      
-
-      {/* DODAWANIE */}
+      {/* SEKCJA SAMOCHODÓW KONKRETNYCH (zredukowana lista) */}
       <form onSubmit={handleAddCar}>
         <h3>Dodaj samochód</h3>
         <label>Numer rejestracyjny:</label>
@@ -289,8 +241,10 @@ function CarManagement() {
           value={newCar.car_type_id}
           onChange={handleNewCarChange}
         >
-          {carTypes.map((carType) => (
-            <option key={carType.id} value={carType.id}>{carType.brand},{carType.model},{carType.nrOfSeats}</option>
+          {carTypes.map((ct) => (
+            <option key={ct.id} value={ct.id}>
+              {ct.brand}, {ct.model}, {ct.nrOfSeats}
+            </option>
           ))}
         </select>
         <label>Rok:</label>
@@ -317,62 +271,19 @@ function CarManagement() {
         <button type="submit">Dodaj</button>
       </form>
 
-      {/* LISTA SAMOCHODÓW i EDYCJA */}
       <h3>Lista samochodów</h3>
       <ul>
         {cars.map((car) => (
           <li key={car.id}>
-            {editCarId === car.id ? (
-              <form onSubmit={handleUpdateCar}>
-                <select
-                  name="car_type_id"
-                  value={editCarData.car_type_id}
-                  onChange={handleEditCarChange}
-                >
-                  {carTypes.map((carType) => (
-                    <option key={carType.id} value={carType.id}>{carType.brand},{carType.model},{carType.nrOfSeats}</option>
-                  ))}
-                </select>
-                <input
-                  type="number"
-                  name="year"
-                  value={editCarData.year}
-                  onChange={handleEditCarChange}
-                />
-                <input
-                  type="text"
-                  name="color"
-                  value={editCarData.color}
-                  onChange={handleEditCarChange}
-                />
-                <input
-                  type="number"
-                  name="price_per_day"
-                  value={editCarData.price_per_day}
-                  onChange={handleEditCarChange}
-                />
-                <select
-                  name="status"
-                  value={editCarData.status}
-                  onChange={handleEditCarChange}
-                >
-                  <option value="available">available</option>
-                  <option value="rent">rent</option>
-                  <option value="not">not</option>
-                </select>
-                <button type="submit">Zapisz</button>
-                <button onClick={() => setEditCarId(null)}>Anuluj</button>
-              </form>
-            ) : (
-              <>
-                <b>{car.id}</b> {car.carType 
-                  ? `${car.carType.brand}, ${car.carType.model}`
-                  : '--- brak carType ---'
-                }, {car.year}, {car.color}, {car.price_per_day} zł/dzień [{car.status}]
-                <button onClick={() => startEdit(car)}>Edytuj</button>
-                <button onClick={() => handleDeleteCar(car.id)}>Usuń</button>
-              </>
-            )}
+            {/* TYLKO podstawowe info, plus link do szczegółów */}
+            <strong>{car.id}</strong> {/* rejestracja */}
+            , rok: {car.year}
+            , status: {car.status}
+            {' '}
+            {/* Link do nowej podstrony: /admin-car/:id */}
+            <Link to={`/admin-car/${car.id}`} style={{ marginLeft: '1rem' }}>
+              Szczegóły
+            </Link>
           </li>
         ))}
       </ul>
