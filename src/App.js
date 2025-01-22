@@ -16,6 +16,8 @@ import AdminPayments from './Pages/AdminPayments';
 import UserReservationDetails from './Pages/UserReservationDetails'; 
 import AdminReservationDetails from './Pages/AdminReservationDetails';
 import AdminServiceHistory from './Pages/AdminServiceHistory';
+import AdminUserDetails from './Pages/AdminUserDetails';
+import AdminCarDetails from './Pages/AdminCarDetails';
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="/admin-reservations" element={<ReservationsManagement />} />
         <Route path="/admin/reservation/:id" element={<AdminReservationDetails />} />
         <Route path="/admin-service-history" element={<AdminServiceHistory />}/>
+        <Route path="/admin-user/:userId" element={<AdminUserDetails />} />
+        <Route path="/admin-car/:id" element={<AdminCarDetails />} />
       </Routes>
     </BrowserRouter>
   );
