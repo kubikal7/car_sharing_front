@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import LayoutAdmin from '../Components/Layout-admin';
+import "../Styles/AdminReservationDetails.css"
 
 function AdminReservationDetails() {
   const { id } = useParams();
@@ -108,68 +109,72 @@ function AdminReservationDetails() {
   return (
     <LayoutAdmin>
       <h2>Szczegóły rezerwacji</h2>
-      <p><strong>ID:</strong> {reservation.id}</p>
-      <p><strong>Użytkownik:</strong> {reservation.user?.name} {reservation.user?.surname}</p>
-      <p><strong>Samochód:</strong> {reservation.car?.id}</p>
-      <p><strong>Od:</strong> {reservation.startDate}</p>
-      <p><strong>Do:</strong> {reservation.endDate}</p>
-      <p><strong>Status:</strong> {reservation.status}</p>
-      <p><strong>Cena:</strong> {reservation.price} zł</p>
+      <div class="reservation-details">
+        <p><strong>ID:</strong> {reservation.id}</p>
+        <p><strong>Użytkownik:</strong> {reservation.user?.name} {reservation.user?.surname}</p>
+        <p><strong>Samochód:</strong> {reservation.car?.id}</p>
+        <p><strong>Od:</strong> {reservation.startDate}</p>
+        <p><strong>Do:</strong> {reservation.endDate}</p>
+        <p><strong>Status:</strong> {reservation.status}</p>
+        <p><strong>Cena:</strong> {reservation.price} zł</p>
 
-      {isPaid ? (
-        <div style={{ color: 'green' }}>
-          <p><strong>OPŁACONE</strong></p>
-          <p>Metoda płatności: {reservation.payment?.type}</p>
-          <p>Data płatności: {reservation.payment?.date}</p>
-        </div>
-      ) : (
-        <div style={{ color: 'red' }}>
-          <p><strong>NIEOPŁACONE</strong></p>
-          <button onClick={() => handlePay('cash')}>Oznacz jako opłacone (CASH)</button>
-          <button onClick={() => handlePay('card')} style={{ marginLeft: '1rem' }}>
-            Oznacz jako opłacone (CARD)
+        {isPaid ? (
+          <div class="paid-status">
+            <p><strong>OPŁACONE</strong></p>
+            <p>Metoda płatności: {reservation.payment?.type}</p>
+            <p>Data płatności: {reservation.payment?.date}</p>
+          </div>
+        ) : (
+          <div class="unpaid-status">
+            <p><strong>NIEOPŁACONE</strong></p>
+            <button onClick={() => handlePay('cash')}>Oznacz jako opłacone (CASH)</button>
+            <button onClick={() => handlePay('card')} style={{ marginLeft: '1rem' }}>
+              Oznacz jako opłacone (CARD)
+            </button>
+          </div>
+        )}
+
+        {reservation.status !== 'canceled' && (
+          <button onClick={handleCancel} class="cancel-button">
+            Anuluj rezerwację
+          </button>
+        )}
+
+        <div class="edit-dates">
+          <h3>Edytuj daty rezerwacji</h3>
+          <label>
+            Nowa data rozpoczęcia:
+            <input
+              type="datetime-local"
+              value={newStartDate}
+              onChange={(e) => setNewStartDate(e.target.value)}
+              class="datetime-input"
+            />
+          </label>
+          <br />
+          <label>
+            Nowa data zakończenia:
+            <input
+              type="datetime-local"
+              value={newEndDate}
+              onChange={(e) => setNewEndDate(e.target.value)}
+              class="datetime-input"
+            />
+          </label>
+          <br />
+          <button
+            onClick={handleUpdateDates}
+            class="save-button"
+          >
+            Zapisz zmiany
           </button>
         </div>
-      )}
 
-      {reservation.status !== 'canceled' && (
-        <button onClick={handleCancel} style={{ display: 'block', marginTop: '1rem' }}>
-          Anuluj rezerwację
-        </button>
-      )}
-
-      <div style={{ marginTop: '2rem' }}>
-        <h3>Edytuj daty rezerwacji</h3>
-        <label>
-          Nowa data rozpoczęcia:
-          <input
-            type="datetime-local"
-            value={newStartDate}
-            onChange={(e) => setNewStartDate(e.target.value)}
-            style={{ marginLeft: '1rem' }}
-          />
-        </label>
-        <br />
-        <label>
-          Nowa data zakończenia:
-          <input
-            type="datetime-local"
-            value={newEndDate}
-            onChange={(e) => setNewEndDate(e.target.value)}
-            style={{ marginLeft: '1rem', marginTop: '1rem' }}
-          />
-        </label>
-        <br />
-        <button
-          onClick={handleUpdateDates}
-        >
-          Zapisz zmiany
-        </button>
+        <Link to="/admin-reservations" class="back-link">
+          Powrót do listy
+        </Link>
       </div>
 
-      <Link to="/admin-reservations" style={{ marginLeft: '0', marginTop: '1rem', display: 'inline-block' }}>
-        Powrót do listy
-      </Link>
     </LayoutAdmin>
   );
 }

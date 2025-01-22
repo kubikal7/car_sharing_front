@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import LayoutAdmin from '../Components/Layout-admin';
+import "../Styles/AdminServiceHistory.css"
 
 function AdminServiceHistory() {
   const token = localStorage.getItem('token') || '';
@@ -65,15 +66,18 @@ function AdminServiceHistory() {
       <h2>Historia serwisowa</h2>
 
       {/*pobieranie historii dla danej rejestracji */}
-      <div>
-        <label>Numer rejestracyjny (carId): </label>
+      <div class="car-id-form">
+        <label htmlFor="car-id">Numer rejestracyjny (carId): </label>
         <input
           type="text"
+          id="car-id"
           value={carId}
           onChange={(e) => setCarId(e.target.value)}
+          placeholder="Wpisz numer rejestracyjny"
         />
         <button onClick={fetchServiceHistory}>Pobierz historię</button>
       </div>
+
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {serviceHistory.length > 0 && (

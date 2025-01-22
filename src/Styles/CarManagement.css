@@ -1,0 +1,145 @@
+.admin-cars-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-cars-page h2, 
+  .admin-cars-page h3 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .admin-cars-page h2 {
+    font-size: 1.8rem;
+  }
+  
+  .admin-cars-page h3 {
+    font-size: 1.5rem;
+  }
+  
+  /* Formularze */
+  form {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+  
+  form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  form input, form select {
+    width: calc(100% - 1rem);
+    max-width: 400px;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: block;
+  }
+  
+  form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  form button:hover {
+    background-color: #0056b3;
+  }
+  
+  form button[type="button"] {
+    background-color: #6c757d;
+  }
+  
+  form button[type="button"]:hover {
+    background-color: #495057;
+  }
+  
+  /* Listy */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    background-color: #f9f9f9;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  li b, li strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  li button {
+    margin-left: 0.5rem;
+    background-color: #dc3545; /* czerwony dla Usuń */
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  li button:hover {
+    background-color: #c82333;
+  }
+  
+  li button:nth-child(2) {
+    background-color: #007bff; /* niebieski dla Edytuj */
+  }
+  
+  li button:nth-child(2):hover {
+    background-color: #0056b3;
+  }
+  
+  /* Linki */
+  li a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+  }
+  
+  li a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  
+  /* Sekcje samochodów */
+  .car-type-section, .car-section {
+    margin-top: 2rem;
+  }
+  
+  .car-type-section form, .car-section form {
+    margin-bottom: 1rem;
+  }
+  

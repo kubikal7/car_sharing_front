@@ -5,30 +5,55 @@ import LayoutAdmin from '../Components/Layout-admin';
 function AdminPayments() {
   const [payments, setPayments] = useState([]);
   const [error, setError] = useState('');
+  const [userID, setUserID] = useState(null);
   const token = localStorage.getItem('token') || '';
 
-  useEffect(() => {
-    const fetchPayments = async () => {
+  const fetchPayments = async () => {
+    try {
+      const res = await axios.get('http://localhost:8080/payment/all', {  //GET /payment/all
+        headers: { Authorization: token }
+      });
+      setPayments(res.data);
+    } catch (err) {
+      console.error('błąd przy pobieraniu płatności:', err);
+      setError('nie udało się pobrać płatnoścci');
+    }
+  };
 
-
-      try {
-        const res = await axios.get('http://localhost:8080/payment/all', {  //GET /payment/all
-          headers: { Authorization: token }
-        });
-        setPayments(res.data);
-      } catch (err) {
-        console.error('błąd przy pobieraniu płatności:', err);
-        setError('nie udało się pobrać płatnoścci');
-      }
-    };
-
+  /*useEffect(() => {
     fetchPayments();
-  }, [token]);
+  }, [token]);*/
+
+  const searchByUser = async () => {
+    if (!userID) return;
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/payment/user/${userID}`,
+        { headers: { Authorization: token } }
+      );
+      setPayments(res.data);
+      setError('');
+    } catch (err) {
+      console.error('Błąd przy pobieraniu historii serwisowej:', err);
+      setError('Nie udało się pobrać historii');
+    }
+  };
 
   return (
     <LayoutAdmin>
-      <h2>Wszystkie płatności (ADMIN)
-      </h2>
+      <h2>Płatności</h2>
+      <div className="search-container">
+        <label>
+          ID użytkownika:
+          <input
+            type="text"
+            value={userID}
+            onChange={(e) => setUserID(e.target.value)}
+          />
+        </label>
+        <button onClick={searchByUser}>Wyszukaj</button>
+        <button onClick={fetchPayments}>Wyszukaj wszystkich</button>
+      </div>
       {error && <p 
       style={{ color: 'red' }}>{error}
       </p>}

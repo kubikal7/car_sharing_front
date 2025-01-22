@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LayoutAdmin from '../Components/Layout-admin';
 import { checkAdminStatus } from '../Scripts/checkAdmin';
-// Uwaga: Link do szczegółów
 import { Link } from 'react-router-dom';
+import "../Styles/CarManagement.css"
 
 function CarManagement() {
   const [cars, setCars] = useState([]);
@@ -155,138 +155,162 @@ function CarManagement() {
 
   return (
     <LayoutAdmin>
-      <h2>Zarządzanie samochodami</h2>
+      <div class="car-management">
+  <h2 class="page-title">Zarządzanie samochodami</h2>
 
-      {/* SEKCJA TYPÓW SAMOCHODU (bez zmian) */}
-      <form onSubmit={handleAddCarType}>
-        <h3>Dodaj typ samochodu</h3>
-        <label>Brand:</label>
-        <input
-          type="text"
-          name="brand"
-          value={newCarType.brand}
-          onChange={handleNewCarTypeChange}
-        />
-        <label>Model:</label>
-        <input
-          type="text"
-          name="model"
-          value={newCarType.model}
-          onChange={handleNewCarTypeChange}
-        />
-        <label>Liczba miejsc:</label>
-        <input
-          type="number"
-          name="nrOfSeats"
-          value={newCarType.nrOfSeats}
-          onChange={handleNewCarTypeChange}
-        />
-        <button type="submit">Dodaj</button>
-      </form>
+  <form class="car-type-form" onSubmit={handleAddCarType}>
+    <h3 class="section-title">Dodaj typ samochodu</h3>
+    <label class="form-label">Brand:</label>
+    <input
+      type="text"
+      name="brand"
+      value={newCarType.brand}
+      onChange={handleNewCarTypeChange}
+      class="form-input"
+    />
+    <label class="form-label">Model:</label>
+    <input
+      type="text"
+      name="model"
+      value={newCarType.model}
+      onChange={handleNewCarTypeChange}
+      class="form-input"
+    />
+    <label class="form-label">Liczba miejsc:</label>
+    <input
+      type="number"
+      name="nrOfSeats"
+      value={newCarType.nrOfSeats}
+      onChange={handleNewCarTypeChange}
+      class="form-input"
+    />
+    <button type="submit" class="form-button">Dodaj</button>
+  </form>
 
-      <h3>Lista typów samochodów</h3>
-      <ul>
-        {carTypes.map((carType) => (
-          <li key={carType.id}>
-            {editCarTypeID === carType.id ? (
-              // Edycja typu
-              <form onSubmit={handleUpdateCarType}>
-                <input
-                  type="text"
-                  name="brand"
-                  value={editCarTypeData.brand}
-                  onChange={handleEditCarTypeChange}
-                />
-                <input
-                  type="text"
-                  name="model"
-                  value={editCarTypeData.model}
-                  onChange={handleEditCarTypeChange}
-                />
-                <input
-                  type="number"
-                  name="nrOfSeats"
-                  value={editCarTypeData.nrOfSeats}
-                  onChange={handleEditCarTypeChange}
-                />
-                <button type="submit">Zapisz</button>
-                <button type="button" onClick={() => setEditCarTypeID(null)}>
-                  Anuluj
-                </button>
-              </form>
-            ) : (
-              <>
-                <b>{carType.id}</b> {carType.brand}, {carType.model} ({carType.nrOfSeats} miejsc)
-                <button onClick={() => startEditType(carType)}>Edytuj</button>
-                <button onClick={() => handleDeleteCarType(carType.id)}>Usuń</button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+  <h3 class="section-title">Lista typów samochodów</h3>
+  <ul class="car-type-list">
+    {carTypes.map((carType) => (
+      <li key={carType.id} class="car-type-item">
+        {editCarTypeID === carType.id ? (
+          <form class="edit-car-type-form" onSubmit={handleUpdateCarType}>
+            <input
+              type="text"
+              name="brand"
+              value={editCarTypeData.brand}
+              onChange={handleEditCarTypeChange}
+              class="form-input"
+            />
+            <input
+              type="text"
+              name="model"
+              value={editCarTypeData.model}
+              onChange={handleEditCarTypeChange}
+              class="form-input"
+            />
+            <input
+              type="number"
+              name="nrOfSeats"
+              value={editCarTypeData.nrOfSeats}
+              onChange={handleEditCarTypeChange}
+              class="form-input"
+            />
+            <button type="submit" class="form-button">Zapisz</button>
+            <button
+              type="button"
+              onClick={() => setEditCarTypeID(null)}
+              class="form-button cancel-button"
+            >
+              Anuluj
+            </button>
+          </form>
+        ) : (
+          <>
+            <b class="car-type-id">{carType.id}</b> {carType.brand}, {carType.model} (
+            {carType.nrOfSeats} miejsc)
+            <button
+              onClick={() => startEditType(carType)}
+              class="action-button edit-button"
+            >
+              Edytuj
+            </button>
+            <button
+              onClick={() => handleDeleteCarType(carType.id)}
+              class="action-button delete-button"
+            >
+              Usuń
+            </button>
+          </>
+        )}
+      </li>
+    ))}
+  </ul>
 
-      {/* SEKCJA SAMOCHODÓW KONKRETNYCH (zredukowana lista) */}
-      <form onSubmit={handleAddCar}>
-        <h3>Dodaj samochód</h3>
-        <label>Numer rejestracyjny:</label>
-        <input
-          type="text"
-          name="id"
-          value={newCar.id}
-          onChange={handleNewCarChange}
-          required
-        />
-        <select
-          name="car_type_id"
-          value={newCar.car_type_id}
-          onChange={handleNewCarChange}
+  <form class="add-car-form" onSubmit={handleAddCar}>
+    <h3 class="section-title">Dodaj samochód</h3>
+    <label class="form-label">Numer rejestracyjny:</label>
+    <input
+      type="text"
+      name="id"
+      value={newCar.id}
+      onChange={handleNewCarChange}
+      class="form-input"
+      required
+    />
+    <select
+      name="car_type_id"
+      value={newCar.car_type_id}
+      onChange={handleNewCarChange}
+      class="form-select"
+    >
+      {carTypes.map((ct) => (
+        <option key={ct.id} value={ct.id}>
+          {ct.brand}, {ct.model}, {ct.nrOfSeats}
+        </option>
+      ))}
+    </select>
+    <label class="form-label">Rok:</label>
+    <input
+      type="number"
+      name="year"
+      value={newCar.year}
+      onChange={handleNewCarChange}
+      class="form-input"
+    />
+    <label class="form-label">Kolor:</label>
+    <input
+      type="text"
+      name="color"
+      value={newCar.color}
+      onChange={handleNewCarChange}
+      class="form-input"
+    />
+    <label class="form-label">Cena / dzień:</label>
+    <input
+      type="number"
+      name="price_per_day"
+      value={newCar.price_per_day}
+      onChange={handleNewCarChange}
+      class="form-input"
+    />
+    <button type="submit" class="form-button">Dodaj</button>
+  </form>
+
+  <h3 class="section-title">Lista samochodów</h3>
+  <ul class="car-list">
+    {cars.map((car) => (
+      <li key={car.id} class="car-item">
+        <strong class="car-id">{car.id}</strong>{car.carType.brand} {car.carType.model}, status: {car.status}{' '}
+        <Link
+          to={`/admin-car/${car.id}`}
+          class="details-link"
         >
-          {carTypes.map((ct) => (
-            <option key={ct.id} value={ct.id}>
-              {ct.brand}, {ct.model}, {ct.nrOfSeats}
-            </option>
-          ))}
-        </select>
-        <label>Rok:</label>
-        <input
-          type="number"
-          name="year"
-          value={newCar.year}
-          onChange={handleNewCarChange}
-        />
-        <label>Kolor:</label>
-        <input
-          type="text"
-          name="color"
-          value={newCar.color}
-          onChange={handleNewCarChange}
-        />
-        <label>Cena / dzień:</label>
-        <input
-          type="number"
-          name="price_per_day"
-          value={newCar.price_per_day}
-          onChange={handleNewCarChange}
-        />
-        <button type="submit">Dodaj</button>
-      </form>
+          Szczegóły
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
 
-      <h3>Lista samochodów</h3>
-      <ul>
-        {cars.map((car) => (
-          <li key={car.id}>
-            {/* TYLKO podstawowe info, plus link do szczegółów */}
-            <strong>{car.id}</strong> {/* rejestracja */}
-            , rok: {car.year}
-            , status: {car.status}
-            {' '}
-            {/* Link do nowej podstrony: /admin-car/:id */}
-            <Link to={`/admin-car/${car.id}`} style={{ marginLeft: '1rem' }}>
-              Szczegóły
-            </Link>
-          </li>
-        ))}
-      </ul>
     </LayoutAdmin>
   );
 }

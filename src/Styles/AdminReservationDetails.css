@@ -1,0 +1,108 @@
+/* Kontener szczegółów rezerwacji */
+.reservation-details {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reservation-details p {
+    font-size: 16px;
+    margin: 8px 0;
+  }
+  
+  /* Styl dla opłaconych rezerwacji */
+  .paid-status {
+    color: green;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .paid-status strong {
+    font-size: 18px;
+  }
+  
+  /* Styl dla nieopłaconych rezerwacji */
+  .unpaid-status {
+    color: red;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .unpaid-status button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .unpaid-status button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Przycisk anulowania rezerwacji */
+  .cancel-button {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .cancel-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Sekcja edytowania dat rezerwacji */
+  .edit-dates h3 {
+    font-size: 20px;
+    margin-top: 30px;
+  }
+  
+  .edit-dates label {
+    font-size: 16px;
+  }
+  
+  .datetime-input {
+    padding: 8px;
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Przycisk zapisywania zmian */
+  .save-button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .save-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Link powrotu do listy */
+  .back-link {
+    font-size: 16px;
+    color: #007bff;
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+  }
+  
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  

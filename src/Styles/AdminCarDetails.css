@@ -1,0 +1,80 @@
+.car-details {
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .car-details h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .car-details p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+  
+  .car-details p strong {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+  
+  .car-details button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .car-details button:hover {
+    background-color: #0056b3;
+  }
+  
+  .car-details .delete-button {
+    margin-left: 1rem;
+    background-color: #dc3545;
+  }
+  
+  .car-details .delete-button:hover {
+    background-color: #a71d2a;
+  }
+  
+  .car-details form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .car-details form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .car-details form input,
+  .car-details form select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .car-details form button {
+    margin-top: 1rem;
+  }
+  
+  .car-details .back-link {
+    margin-top: 1rem;
+    display: inline-block;
+    font-size: 1rem;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .car-details .back-link:hover {
+    text-decoration: underline;
+  }
+  

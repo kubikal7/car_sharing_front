@@ -1,0 +1,43 @@
+/* Styl formularza */
+.car-id-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+  }
+  
+  .car-id-form label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .car-id-form input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 90%;
+    margin-bottom: 20px;
+  }
+  
+  .car-id-form input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .car-id-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .car-id-form button:hover {
+    background-color: #0056b3;
+  }
+  

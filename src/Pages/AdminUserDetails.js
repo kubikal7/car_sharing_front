@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import LayoutAdmin from '../Components/Layout-admin';
+import "../Styles/AdminUserDetails.css"
 
 function AdminUserDetails() {
   const { userId } = useParams();
@@ -14,7 +15,6 @@ function AdminUserDetails() {
     name: '',
     surname: '',
     email: '',
-    password: '',
     country: '',
     date_of_birth: '',
   });
@@ -114,89 +114,82 @@ function AdminUserDetails() {
   return (
     <LayoutAdmin>
       <h2>Szczegóły użytkownika</h2>
-      {!editMode ? (
-        // Widok "podglądu" danych
-        <div>
-          <p><strong>ID:</strong> {userData.id}</p>
-          <p><strong>Imię:</strong> {userData.name}</p>
-          <p><strong>Nazwisko:</strong> {userData.surname}</p>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Kraj:</strong> {userData.country}</p>
-          <p><strong>Data urodzenia:</strong> {userData.date_of_birth}</p>
-          <p><strong>Rola:</strong> {userData.role}</p>
+<div class="user-details">
+  {!editMode ? (
+    // Widok "podglądu" danych
+    <div>
+      <p><strong>ID:</strong> {userData.id}</p>
+      <p><strong>Imię:</strong> {userData.name}</p>
+      <p><strong>Nazwisko:</strong> {userData.surname}</p>
+      <p><strong>Email:</strong> {userData.email}</p>
+      <p><strong>Kraj:</strong> {userData.country}</p>
+      <p><strong>Data urodzenia:</strong> {userData.date_of_birth}</p>
+      <p><strong>Rola:</strong> {userData.role}</p>
 
-          <button onClick={startEditing}>Edytuj</button>
-          <button onClick={handleDeleteUser} style={{ marginLeft: '1rem' }}>
-            Usuń
-          </button>
-        </div>
-      ) : (
-        // Widok edycji
-        <form onSubmit={handleUpdateUser}>
-          <div>
-            <label>Imię:</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Nazwisko:</label>
-            <input
-              type="text"
-              name="surname"
-              value={formData.surname}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Hasło:</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Kraj:</label>
-            <input
-              type="text"
-              name="country"
-              value={formData.country}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Data urodzenia:</label>
-            <input
-              type="date"
-              name="date_of_birth"
-              value={formData.date_of_birth}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button type="submit">Zapisz</button>
-          <button type="button" onClick={cancelEditing} style={{ marginLeft: '1rem' }}>
-            Anuluj
-          </button>
-        </form>
-      )}
+      <div class="buttons">
+        <button onClick={startEditing}>Edytuj</button>
+      </div>
+    </div>
+  ) : (
+    // Widok edycji
+    <form onSubmit={handleUpdateUser} class="edit-form">
+      <div>
+        <label>Imię:</label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Nazwisko:</label>
+        <input
+          type="text"
+          name="surname"
+          value={formData.surname}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Kraj:</label>
+        <input
+          type="text"
+          name="country"
+          value={formData.country}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <label>Data urodzenia:</label>
+        <input
+          type="date"
+          name="date_of_birth"
+          value={formData.date_of_birth}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div class="buttons">
+        <button type="submit">Zapisz</button>
+        <button type="button" onClick={cancelEditing}>Anuluj</button>
+      </div>
+    </form>
+  )}
 
-      <Link to="/admin-users" style={{ display: 'inline-block', marginTop: '1rem' }}>
-        Powrót do listy użytkowników
-      </Link>
+  <Link to="/admin-users" class="back-link">
+    Powrót do listy użytkowników
+  </Link>
+</div>
+
     </LayoutAdmin>
   );
 }
