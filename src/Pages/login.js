@@ -12,19 +12,16 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      // Przygotowanie danych do logowania
       const credentials = {
         email: email,
         password: password,
       };
 
-      // Wysyłanie zapytania GET do backendu z body email i password
       const response = await axios.put('http://localhost:8080/auth/login', credentials);
 
       if (response.status === 200) {
-        const token = response.data;  // Zakładamy, że token jest w body odpowiedzi
+        const token = response.data;
         if (token) {
-          // Zapisz token w localStorage
           localStorage.setItem('token', token);
           navigate('/')
         } else {

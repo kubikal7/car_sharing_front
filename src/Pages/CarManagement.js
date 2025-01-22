@@ -9,7 +9,6 @@ function CarManagement() {
   const [cars, setCars] = useState([]);
   const [carTypes, setCarTypes] = useState([]);
 
-  // Sekcja typów samochodów
   const [newCarType, setNewCarType] = useState({
     brand: '',
     model: '',
@@ -18,10 +17,9 @@ function CarManagement() {
   const [editCarTypeID, setEditCarTypeID] = useState(null);
   const [editCarTypeData, setEditCarTypeData] = useState({});
 
-  // Sekcja konkretnych samochodów
   const [newCar, setNewCar] = useState({
     id: '',
-    car_type_id: 0,
+    car_type_id: 1,
     year: '',
     color: '',
     price_per_day: '',
@@ -33,7 +31,6 @@ function CarManagement() {
 
   useEffect(() => {
     (async () => {
-      // Sprawdzanie czy user jest adminem
       setIsAdmin(await checkAdminStatus(token));
     })();
   }, [token]);
@@ -44,7 +41,6 @@ function CarManagement() {
     fetchCars();
   }, [isAdmin]);
 
-  // ------------ Funkcje do CarType ------------
   const fetchCarTypes = async () => {
     try {
       const res = await axios.get('http://localhost:8080/cartype/all');
@@ -113,7 +109,6 @@ function CarManagement() {
     }
   };
 
-  // ------------ Funkcje do Car ------------
   const fetchCars = async () => {
     try {
       const res = await axios.get('http://localhost:8080/cars/all');
@@ -125,11 +120,13 @@ function CarManagement() {
 
   const handleNewCarChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value)
     setNewCar((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAddCar = async (e) => {
     e.preventDefault();
+    console.log(newCar)
     try {
       await axios.post(
         'http://localhost:8080/cars/add',
@@ -143,8 +140,6 @@ function CarManagement() {
       alert('Nie udało się dodać samochodu.');
     }
   };
-
-  // (Edycję i usuwanie przenosimy do osobnej podstrony – AdminCarDetails.js)
 
   if (isAdmin === null) {
     return <LayoutAdmin>Ładowanie...</LayoutAdmin>;

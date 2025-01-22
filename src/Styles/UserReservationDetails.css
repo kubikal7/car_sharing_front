@@ -1,4 +1,3 @@
-/* Container for reservation details */
 .reservation-details-container {
     padding: 1.5rem;
     background-color: #f9f9f9;
@@ -14,20 +13,17 @@
     color: #333;
   }
   
-  /* Details styling */
   .reservation-details-container p {
     font-size: 1rem;
     margin: 0.5rem 0;
     color: #333;
   }
   
-  /* Adding class for labels, to mimic strong style */
   .reservation-details-container p .label {
     font-weight: bold;
     color: #555;
   }
   
-  /* Payment status */
   .reservation-details-container .payment-status {
     margin-top: 2rem;
     padding: 1rem;
@@ -49,7 +45,6 @@
     color: red;
   }
   
-  /* Edit reservation date section */
   .reservation-details-container .edit-dates {
     margin-top: 2rem;
     padding: 1rem;
@@ -89,7 +84,6 @@
     background-color: #0056b3;
   }
   
-  /* Link to go back to reservations */
   .reservation-details-container .back-link {
     display: inline-block;
     margin-top: 1rem;

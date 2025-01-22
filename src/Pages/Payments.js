@@ -16,7 +16,6 @@ function Payments() {
       return;
     }
 
-    //ustala rolę użytkownika
     const fetchUserRole = async () => {
       try {
         const userRes = await axios.get('http://localhost:8080/user/', {
@@ -31,10 +30,8 @@ function Payments() {
       }
     };
 
-    //pobiera płatności
     const fetchPayments = async (admin) => {
       try {
-        //jeśli admin to /payment/all w przeciwnym razie /payment/user
         const endpoint = admin 
           ? 'http://localhost:8080/payment/all'
           : 'http://localhost:8080/payment/user';
@@ -50,8 +47,7 @@ function Payments() {
         setLoading(false);
       }
     };
-
-    //najpierw pobieramy usera (żeby sprawdzić rolę) potem płatności
+    
     (async () => {
       await fetchUserRole();
       await fetchPayments(isAdmin);

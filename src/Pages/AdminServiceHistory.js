@@ -9,14 +9,11 @@ function AdminServiceHistory() {
   const [carId, setCarId] = useState('');
   const [serviceHistory, setServiceHistory] = useState([]);
   const [error, setError] = useState('');
-
-  //dodania nowego wpisu
   const [carIdForAdd, setCarIdForAdd] = useState(''); 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [problem, setProblem] = useState('');
 
-  //historia dla carId
   const fetchServiceHistory = async () => {
     if (!carId) return;
     try {
@@ -32,7 +29,6 @@ function AdminServiceHistory() {
     }
   };
 
-  //nowy wpis serwisowy
   const handleAddHistory = async (e) => {
     e.preventDefault();
     try {

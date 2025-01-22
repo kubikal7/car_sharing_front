@@ -15,7 +15,7 @@ function AddAdmin() {
 
   const token = localStorage.getItem('token') || "";
 
-  // Obsługa zmiany danych w formularzu
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,7 +24,7 @@ function AddAdmin() {
     }));
   };
 
-  // Obsługa wysyłania formularza
+  
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -34,7 +34,7 @@ function AddAdmin() {
         formData,
         {
           headers: {
-            'Authorization': token, // Możesz ustawić pusty header na razie
+            'Authorization': token,
           },
         }
       );

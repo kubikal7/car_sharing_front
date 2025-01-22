@@ -37,7 +37,7 @@ function AdminReservationDetails() {
     fetchData();
   }, [id, token]);
 
-  // Anulowanie rezerwacji
+  
   const handleCancel = async () => {
     if (!reservation) return;
     try {
@@ -54,7 +54,7 @@ function AdminReservationDetails() {
     }
   };
 
-  // Oznaczenie jako opłacone
+  
   const handlePay = async (payType) => {
     if (!reservation) return;
     try {
@@ -71,7 +71,7 @@ function AdminReservationDetails() {
     }
   };
 
-  // Aktualizacja dat
+  
   const handleUpdateDates = async () => {
     if (!reservation) return;
     try {

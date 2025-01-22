@@ -6,17 +6,14 @@ function ClientPanel() {
   const [price, setPrice] = useState(500); 
   const [cars, setCars] = useState([]);
 
-  //kliknięcia przycisku liczby miejsc
   const handleSelectSeats = (val) => {
     setSeats(val);
   };
 
-  //suwak ceny
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
   };
 
-  //wyszukaj auta
   const handleSearch = async () => {
     try {
 

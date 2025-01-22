@@ -11,7 +11,6 @@ function Main() {
   const [availableCars, setAvailableCars] = useState([]);
   const [error, setError] = useState('');
 
-  // zmiana startDate i endDate 
   const handleSearchDatesChange = (e) => {
     const { name, value } = e.target;
     setSearchDates((prev) => ({
@@ -20,7 +19,6 @@ function Main() {
     }));
   };
 
-  //wyszukiwanie dostępnych samochodów
   const handleSearch = async (e) => {
     e.preventDefault();
     setError('');
@@ -36,7 +34,6 @@ function Main() {
     }
   };
 
-  // rezerwacja wybranego samochodu
   const handleReserve = async (carId) => {
     const token = localStorage.getItem('token') || '';
     if (!token) {

@@ -1,11 +1,9 @@
-/* Layout container */
 .layout-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
   }
   
-  /* Header */
   .layout-header {
     background-color: #282c34;
     color: white;
@@ -13,7 +11,6 @@
     text-align: center;
   }
   
-  /* Navigation */
   .layout-nav {
     background-color: #f4f4f4;
     padding: 1rem;
@@ -35,50 +32,45 @@
     color: #333;
   }
   
-  /* Main content */
   .layout-main {
     flex: 1;
     padding: 1rem;
   }
   
-  /* Footer */
   .layout-footer {
     background-color: #282c34;
     color: white;
     text-align: center;
     padding: 0.5rem;
   }
-  /* Kontener całości sekcji rezerwacji w panelu admina */
+
 .admin-reservations-page {
-  max-width: 900px;         /* szerokość kontenera */
-  margin: 0 auto;           /* wycentrowanie */
-  padding: 2rem;            /* odstępy wewnętrzne */
-  background-color: #fff;   /* białe tło */
-  border-radius: 8px;       /* zaokrąglone rogi */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* delikatny cień */
+  max-width: 900px;         
+  margin: 0 auto;           
+  padding: 2rem;            
+  background-color: #fff;  
+  border-radius: 8px;      
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
 
-/* Tytuł sekcji */
 .admin-reservations-page h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
   color: #333;
 }
 
-/* Lista rezerwacji */
 .reservation-list {
-  list-style: none;       /* bez kropek */
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* Pojedynczy element na liście rezerwacji */
 .reservation-item {
   display: flex;         
   justify-content: space-between; 
   align-items: center;   
   margin-bottom: 1rem;
-  background-color: #f9f9f9; /* jasne tło */
+  background-color: #f9f9f9;
   border-radius: 6px;
   padding: 0.8rem 1rem;
   transition: background-color 0.2s;
@@ -88,15 +80,13 @@
   background-color: #f0f0f0;
 }
 
-/* Sekcja z opisem ID, Użytkownik, Samochód... */
 .reservation-info {
   font-size: 1rem;
   color: #555;
 }
 
-/* Link „Szczegóły” */
 .reservation-details-link {
-  color: #007bff;        /* niebieski link (bootstrap style) */
+  color: #007bff;        
   text-decoration: none;
   font-weight: bold;
   margin-left: 1rem;
@@ -104,12 +94,10 @@
 }
 
 .reservation-details-link:hover {
-  color: #0056b3;       /* ciemniejszy niebieski przy hover */
+  color: #0056b3;      
   text-decoration: underline;
 }
 
-
-/* Container for search options */
 .search-container {
   padding: 1.5rem;
   background-color: #f9f9f9;

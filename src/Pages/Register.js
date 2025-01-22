@@ -19,7 +19,6 @@ function Register() {
   }); 
   const [error, setError] = useState(null);
 
-  // Obsługa zmiany danych w formularzu
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -28,7 +27,6 @@ function Register() {
     }));
   };
 
-  // Obsługa wysyłania formularza
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -38,14 +36,13 @@ function Register() {
         formData,
         {
           headers: {
-            'Authorization': token || '', // Możesz ustawić pusty header na razie
+            'Authorization': token || '', 
           },
         }
       );
 
       if (response.status === 200) {
         alert('Rejestracja zakończona sukcesem!');
-        // Możesz dodać logikę przekierowania po udanej rejestracji
       }
     } catch (error) {
       setError('Błąd rejestracji: ' + (error.response ? error.response.data.message : error.message));

@@ -58,12 +58,11 @@ function AdminUserDetails() {
 
   const startEditing = () => {
     setEditMode(true);
-    // wypełniamy formData danymi usera
     setFormData({
       name: userData.name,
       surname: userData.surname,
       email: userData.email,
-      password: '', // hasło puste, jeśli chcesz wymagać nowego
+      password: '', 
       country: userData.country,
       date_of_birth: userData.date_of_birth,
     });
@@ -96,7 +95,6 @@ function AdminUserDetails() {
       );
       alert('Użytkownik zaktualizowany!');
       setEditMode(false);
-      // odśwież
       fetchUser();
     } catch (err) {
       console.error('Błąd przy aktualizacji użytkownika:', err);
@@ -116,7 +114,6 @@ function AdminUserDetails() {
       <h2>Szczegóły użytkownika</h2>
 <div class="user-details">
   {!editMode ? (
-    // Widok "podglądu" danych
     <div>
       <p><strong>ID:</strong> {userData.id}</p>
       <p><strong>Imię:</strong> {userData.name}</p>
@@ -131,7 +128,6 @@ function AdminUserDetails() {
       </div>
     </div>
   ) : (
-    // Widok edycji
     <form onSubmit={handleUpdateUser} class="edit-form">
       <div>
         <label>Imię:</label>
