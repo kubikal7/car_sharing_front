@@ -21,7 +21,7 @@ function CarManagement() {
   // Sekcja konkretnych samochodów
   const [newCar, setNewCar] = useState({
     id: '',
-    car_type_id: 0,
+    car_type_id: 1,
     year: '',
     color: '',
     price_per_day: '',
